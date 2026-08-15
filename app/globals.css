@@ -1,0 +1,395 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   BECA Logistics — design tokens
+   Palette is locked to the four brand colours. Every other value below is a
+   tint/shade of the navy, so nothing new enters the hue budget.
+   ========================================================================== */
+
+@theme {
+  /* Brand */
+  --color-ink: #001238; /* navy   — primary surface */
+  --color-gold: #d8b800; /* gold   — action / accent */
+  --color-ice: #def5ff; /* ice    — primary text + wireframes */
+  --color-graphite: #424242; /* charcoal — neutral rules, muted UI */
+
+  /* Navy depth steps (surface elevation) */
+  --color-ink-950: #000a20;
+  --color-ink-900: #000d29;
+  --color-ink-800: #001238;
+  --color-ink-700: #061c4b;
+  --color-ink-600: #0b2660;
+  --color-ink-500: #123176;
+
+  /* Gold steps — gold is display/accent only, never body copy on light */
+  --color-gold-bright: #f2d02a;
+  --color-gold-dim: #9b8400;
+
+  /* Type */
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Layout */
+  --spacing-gutter: 1.5rem;
+  --container-page: 1200px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-ink-900);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-ink-900);
+    color: var(--color-ice);
+    font-family: var(--font-sans);
+  }
+
+  /* Horizontal bleed is contained per-section (see .clip-x). Never put
+     `overflow-x: clip` on <body>: it propagates to the viewport, which forces
+     overflow-y to clip as well and silently kills page scrolling. */
+
+  /* Anchor targets clear the floating header */
+  section[id] {
+    scroll-margin-top: 6.5rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+@layer components {
+  /* --- Liquid glass -------------------------------------------------------
+     Blur radius is stepped down on small screens: a large backdrop-filter
+     compositing over the animated hero canvas is the single most expensive
+     thing on this page for mid-range mobile GPUs. */
+  .glass {
+    background-color: color-mix(in oklab, var(--color-ink-700) 55%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-ice) 14%, transparent);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 0 color-mix(in oklab, var(--color-ice) 18%, transparent),
+      inset 0 -1px 0 0 color-mix(in oklab, var(--color-ink-950) 40%, transparent),
+      0 8px 32px -8px rgb(0 0 0 / 0.55);
+  }
+
+  .glass-soft {
+    background-color: color-mix(in oklab, var(--color-ink-700) 38%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-ice) 10%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+
+  @media (max-width: 767px) {
+    .glass {
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+    }
+    .glass-soft {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass,
+    .glass-soft {
+      background-color: color-mix(in oklab, var(--color-ink-700) 94%, transparent);
+    }
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition:
+      transform 0.45s var(--ease-soft),
+      box-shadow 0.45s var(--ease-soft),
+      color 0.3s var(--ease-soft),
+      background-color 0.3s var(--ease-soft),
+      border-color 0.3s var(--ease-soft);
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Fluid fill sweep — the "liquid" cue, GPU-cheap (transform only) */
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-soft);
+    border-radius: inherit;
+  }
+
+  .btn-primary {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+    box-shadow: 0 6px 24px -8px color-mix(in oklab, var(--color-gold) 70%, transparent);
+  }
+  .btn-primary::before {
+    background-color: var(--color-gold-bright);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 10px 34px -8px color-mix(in oklab, var(--color-gold) 85%, transparent);
+  }
+  .btn-primary:hover::before {
+    transform: translateY(0);
+  }
+
+  .btn-ghost {
+    color: var(--color-ice);
+    border: 1px solid color-mix(in oklab, var(--color-ice) 22%, transparent);
+    background-color: color-mix(in oklab, var(--color-ice) 4%, transparent);
+  }
+  .btn-ghost::before {
+    background-color: var(--color-ice);
+  }
+  .btn-ghost:hover {
+    color: var(--color-ink);
+    border-color: var(--color-ice);
+  }
+  .btn-ghost:hover::before {
+    transform: translateY(0);
+  }
+
+  /* --- Section furniture -------------------------------------------------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.6;
+  }
+
+  .rule {
+    border-color: color-mix(in oklab, var(--color-ice) 12%, transparent);
+  }
+
+  /* --- Edge-to-edge carousel ----------------------------------------------
+     Cards line up with the page container's left and right content borders but
+     keep scrolling past them. Written as real CSS because Tailwind's arbitrary
+     values cannot carry the whitespace `calc()` requires around + and -. */
+  .carousel-inset {
+    padding-inline: max(1.5rem, calc((100% - var(--container-page)) / 2 + 1.5rem));
+  }
+
+  .carousel-card {
+    width: 82vw;
+  }
+
+  @media (min-width: 640px) {
+    .carousel-card {
+      width: 46vw;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    /* Three cards across the container's content width, less two 1.25rem gaps.
+       100% here is the track's content box, which already excludes the inset. */
+    .carousel-card {
+      width: calc((min(var(--container-page) - 3rem, 100%) - 2.5rem) / 3);
+    }
+  }
+
+  /* --- Infinite marquee ---------------------------------------------------
+     The track holds the list twice; translating it -50% lands the copy exactly
+     where the original started, so the seam is invisible. */
+  .marquee {
+    --marquee-duration: 48s;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  .marquee-track {
+    animation: beca-marquee var(--marquee-duration) linear infinite;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@layer utilities {
+  .clip-x {
+    overflow-x: clip;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Scroll reveal — driven by IntersectionObserver (see components/ui/Reveal) */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition:
+      opacity 0.9s var(--ease-soft),
+      transform 0.9s var(--ease-soft);
+    will-change: opacity, transform;
+  }
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .text-glow-ice {
+    text-shadow: 0 0 32px color-mix(in oklab, var(--color-ice) 45%, transparent);
+  }
+
+  /* Fades the hero canvas out at the bottom so the globe dissolves into the
+     next section rather than clipping at the section edge. */
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+
+@keyframes beca-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes beca-dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes beca-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.85);
+  }
+}
+
+@keyframes beca-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes beca-fade-down {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — a hard stop for the marquee, parallax, globe spin and
+   every reveal transition.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
