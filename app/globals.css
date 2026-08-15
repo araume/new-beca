@@ -229,29 +229,25 @@
     border-color: color-mix(in oklab, var(--color-ice) 12%, transparent);
   }
 
-  /* --- Edge-to-edge carousel ----------------------------------------------
-     Cards line up with the page container's left and right content borders but
-     keep scrolling past them. Written as real CSS because Tailwind's arbitrary
-     values cannot carry the whitespace `calc()` requires around + and -. */
-  .carousel-inset {
-    padding-inline: max(1.5rem, calc((100% - var(--container-page)) / 2 + 1.5rem));
-  }
-
+  /* --- Carousel cards ------------------------------------------------------
+     Widths are a share of the track's own content box, so the carousel sits
+     inside the page container and aligns with every other section rather than
+     bleeding to the window edges. Written as real CSS because Tailwind's
+     arbitrary values cannot carry the whitespace `calc()` requires around
+     + and -. `100%` is the container width; the subtractions are flex gaps. */
   .carousel-card {
-    width: 82vw;
+    width: 86%; /* next card peeks, signalling that the row scrolls */
   }
 
   @media (min-width: 640px) {
     .carousel-card {
-      width: 46vw;
+      width: calc((100% - 1.25rem) / 2);
     }
   }
 
   @media (min-width: 1024px) {
-    /* Three cards across the container's content width, less two 1.25rem gaps.
-       100% here is the track's content box, which already excludes the inset. */
     .carousel-card {
-      width: calc((min(var(--container-page) - 3rem, 100%) - 2.5rem) / 3);
+      width: calc((100% - 2.5rem) / 3);
     }
   }
 

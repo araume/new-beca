@@ -10,12 +10,22 @@ import { services } from "@/lib/content";
  * touch momentum, works without JavaScript, and keeps arrow-key and screen
  * reader behaviour for free. The arrows drive `scrollBy` on top of it.
  */
+/** Matches the `gap-5` on the track; used to convert scroll offset to cards. */
+const CARD_GAP = 20;
+
 export function Services() {
   const trackRef = useRef<HTMLUListElement>(null);
   const [progress, setProgress] = useState(0);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  /**
+   * Dots map to reachable scroll positions, not to services. Scrolling stops
+   * once the last card is flush right, so with three cards in view only five of
+   * the seven services can ever start a view. Derived from live geometry so it
+   * follows the breakpoint (7 positions on mobile, 6 at sm, 5 at lg).
+   */
+  const [stopCount, setStopCount] = useState(services.length);
 
   const sync = useCallback(() => {
     const track = trackRef.current;
@@ -30,8 +40,12 @@ export function Services() {
 
     const card = track.firstElementChild as HTMLElement | null;
     if (card) {
-      const step = card.getBoundingClientRect().width + 20;
-      setActiveIndex(Math.round(track.scrollLeft / step));
+      const step = card.getBoundingClientRect().width + CARD_GAP;
+      const stops = step > 0 ? Math.round(max / step) + 1 : 1;
+      const clamped = Math.min(Math.max(stops, 1), services.length);
+
+      setStopCount(clamped);
+      setActiveIndex(Math.min(Math.round(track.scrollLeft / step), clamped - 1));
     }
   }, []);
 
@@ -41,10 +55,30 @@ export function Services() {
 
     sync();
     track.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync, { passive: true });
+
+    // Re-measure on resize from two sources. The window listener must defer to
+    // the next frame: read synchronously and it latches an intermediate card
+    // width, leaving the dot count stale until the next scroll. The observer
+    // additionally catches container changes that never resize the window,
+    // such as a scrollbar appearing.
+    let frame = 0;
+    const syncAfterLayout = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        sync();
+      });
+    };
+
+    const observer = new ResizeObserver(syncAfterLayout);
+    observer.observe(track);
+    window.addEventListener("resize", syncAfterLayout, { passive: true });
+
     return () => {
       track.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
+      window.removeEventListener("resize", syncAfterLayout);
+      observer.disconnect();
+      if (frame) cancelAnimationFrame(frame);
     };
   }, [sync]);
 
@@ -52,7 +86,7 @@ export function Services() {
     const track = trackRef.current;
     if (!track) return;
     const card = track.firstElementChild as HTMLElement | null;
-    const step = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.8;
+    const step = card ? card.getBoundingClientRect().width + CARD_GAP : track.clientWidth * 0.8;
     track.scrollBy({ left: step * direction, behavior: "smooth" });
   };
 
@@ -124,14 +158,14 @@ export function Services() {
         </div>
       </div>
 
-      {/* Track — inset gutters match the page container so cards start and end
-          on the content edges while still scrolling past them. */}
-      <div className="mt-12">
+      {/* Track — sits in the same container as every other section so its left
+          and right edges line up with the surrounding content. */}
+      <div className="mx-auto mt-12 w-full max-w-page px-6">
         <ul
           ref={trackRef}
           tabIndex={0}
           aria-label="Services"
-          className="carousel-inset no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2"
+          className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2"
         >
           {services.map((service) => (
             <li
@@ -144,7 +178,7 @@ export function Services() {
                     src={service.image}
                     alt={service.name}
                     fill
-                    sizes="(max-width: 640px) 82vw, (max-width: 1024px) 46vw, 380px"
+                    sizes="(max-width: 639px) 80vw, (max-width: 1023px) 45vw, 380px"
                     className="object-cover transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,13,41,0.85),transparent_55%)]" />
@@ -183,12 +217,12 @@ export function Services() {
           />
         </div>
         <ul className="flex gap-2">
-          {services.map((service, index) => (
-            <li key={service.slug}>
+          {Array.from({ length: stopCount }, (_, index) => (
+            <li key={services[index].slug}>
               <button
                 type="button"
                 onClick={() => scrollToIndex(index)}
-                aria-label={`Go to ${service.name}`}
+                aria-label={`Scroll to ${services[index].name}`}
                 aria-current={index === activeIndex ? "true" : undefined}
                 className={`block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-soft)] ${
                   index === activeIndex ? "w-6 bg-gold" : "w-1.5 bg-ice/25 hover:bg-ice/50"
