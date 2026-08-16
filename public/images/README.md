@@ -3,9 +3,13 @@
 Place the final artwork here using these exact filenames — the code already
 references them.
 
+> **Note:** the About background is no longer read from this folder. It now
+> uses `public/truckbg.jpeg`, rendered as a navy duotone via
+> `mix-blend-luminosity`. To swap it, replace that file or change the `src` in
+> [`components/sections/About.tsx`](../../components/sections/About.tsx).
+
 | File            | Used by                     | Recommended size | Notes                                                                 |
 | --------------- | --------------------------- | ---------------- | --------------------------------------------------------------------- |
-| `about-bg.png`  | About section background    | 2400 × 1600      | Gets a navy overlay at ~82% and parallax drift; keep the subject centred and avoid text in the image. |
 | `services1.png` | Customs Brokerage           | 1200 × 900 (4:3) | Bottom ~35% is covered by a gradient and chips.                        |
 | `services2.png` | Customs Clearing & Facilitation | 1200 × 900   |                                                                       |
 | `services3.png` | Distribution & Delivery     | 1200 × 900       |                                                                       |

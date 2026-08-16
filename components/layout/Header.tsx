@@ -67,7 +67,7 @@ export function Header() {
           }`}
         >
           <a href="#top" className="rounded-lg" aria-label={`${"BECA Logistics"} — back to top`}>
-            <Logo />
+            <Logo priority />
           </a>
 
           {/* Desktop navigation */}

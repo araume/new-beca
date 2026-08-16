@@ -6,20 +6,29 @@ import { FOUNDED_YEAR, YEARS_IN_OPERATION, company, credentials } from "@/lib/co
 export function About() {
   return (
     <section id="about" className="relative z-10 overflow-hidden py-24 sm:py-32">
-      {/* Background plate — supplied by the developer as public/images/about-bg.png */}
-      <div className="absolute inset-0 -z-10">
+      {/*
+        Background plate. `isolate` + `mix-blend-luminosity` is what does the
+        blending: the photo contributes only its luminance while the navy plate
+        underneath supplies hue and saturation, so the truck reads as a navy
+        duotone rather than a full-colour photo sitting behind the copy. The
+        three overlays then deepen it, fade the top and bottom edges into the
+        neighbouring sections, and darken the side the text sits on.
+      */}
+      <div className="absolute inset-0 -z-10 isolate bg-ink-900">
         <Parallax distance={-70} className="absolute inset-x-0 -top-[12%] h-[124%]">
           <Image
-            src="/images/about-bg.png"
+            src="/truckbg.jpeg"
             alt=""
             fill
             aria-hidden="true"
+            priority={false}
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-center opacity-55 mix-blend-luminosity"
           />
         </Parallax>
-        <div className="absolute inset-0 bg-ink-900/82" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-ink-900)_0%,transparent_22%,transparent_78%,var(--color-ink-900)_100%)]" />
+        <div className="absolute inset-0 bg-ink-900/55" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-ink-900)_0%,transparent_26%,transparent_74%,var(--color-ink-900)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--color-ink-900)_0%,rgba(0,13,41,0.55)_48%,transparent_88%)]" />
       </div>
 
       <div className="mx-auto w-full max-w-page px-6">
