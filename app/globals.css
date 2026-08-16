@@ -355,6 +355,32 @@
   }
 }
 
+/* Fills the dwell indicator under the active how-it-works step. */
+@keyframes beca-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Expanding ring on the active step's number. */
+@keyframes beca-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
 @keyframes beca-fade-down {
   from {
     opacity: 0;

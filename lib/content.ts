@@ -228,18 +228,24 @@ export const process = [
     step: "01",
     title: "Quote & booking",
     body: "Send us the shipment details — origin, volume, FCL or LCL. We come back with a competitive rate and the entry type your product actually needs.",
+    image: "/images/hiw1.jpeg",
   },
   {
     step: "02",
     title: "Clearance & handling",
     body: "We file the customs entry, clear the cargo at any Philippine container port and expedite its release, with professional handling from container unloading onward.",
+    image: "/images/hiw2.jpeg",
   },
   {
     step: "03",
     title: "Door delivery",
     body: "Our own fleet and partner network take it to the consignee's door under insured cover, with signed delivery receipts and photos emailed on request.",
+    image: "/images/hiw3.jpeg",
   },
 ] as const;
+
+/** Dwell time per step in the how-it-works slideshow, in milliseconds. */
+export const PROCESS_STEP_MS = 6000;
 
 export const navigation = [
   { label: "About", href: "#about" },
