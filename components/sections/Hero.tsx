@@ -1,4 +1,4 @@
-import { GlobeCanvas } from "@/components/visuals/GlobeCanvas";
+import { WorldMapCanvas } from "@/components/visuals/WorldMapCanvas";
 import { Reveal } from "@/components/ui/Reveal";
 import { FOUNDED_YEAR, QUOTE_HREF, company, contact } from "@/lib/content";
 
@@ -11,12 +11,12 @@ const assurances = [
 export function Hero() {
   return (
     <section id="top" className="relative">
-      {/* The globe extends past the section so its lower half dissolves into
-          the partner strip instead of clipping at the boundary. */}
+      {/* The map extends past the section so it dissolves into the partner
+          strip instead of clipping at the boundary. */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100%_+_22vh)] overflow-hidden">
-        <GlobeCanvas className="mask-fade-b absolute inset-0 h-full w-full" />
-        {/* Seats the headline against the wireframe without hiding the globe. */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-ink-900)_0%,transparent_28%)] lg:bg-[linear-gradient(to_right,var(--color-ink-900)_0%,rgba(0,13,41,0.6)_42%,transparent_72%)]" />
+        <WorldMapCanvas className="mask-fade-b absolute inset-0 h-full w-full" />
+        {/* Seats the headline against the wireframe without hiding the map. */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-ink-900)_0%,transparent_30%)] lg:bg-[linear-gradient(to_right,var(--color-ink-900)_0%,rgba(0,13,41,0.72)_38%,rgba(0,13,41,0.35)_62%,transparent_88%)]" />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-page flex-col justify-center px-6 pb-24 pt-36 sm:pt-40">
