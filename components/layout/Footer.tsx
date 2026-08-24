@@ -25,12 +25,12 @@ export function Footer() {
               <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ice/45">
                 Navigate
               </h2>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-3 space-y-0.5">
                 {navigation.map((item) => (
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      className="text-sm text-ice/70 transition-colors duration-300 hover:text-gold"
+                      className="-my-1 inline-block py-2 text-sm text-ice/70 transition-colors duration-300 hover:text-gold"
                     >
                       {item.label}
                     </a>
@@ -44,12 +44,12 @@ export function Footer() {
               <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ice/45">
                 Services
               </h2>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-3 space-y-0.5">
                 {services.map((service) => (
                   <li key={service.slug}>
                     <a
                       href="#services"
-                      className="text-sm text-ice/70 transition-colors duration-300 hover:text-gold"
+                      className="-my-1 inline-block py-2 text-sm text-ice/70 transition-colors duration-300 hover:text-gold"
                     >
                       {service.name}
                     </a>
@@ -74,7 +74,7 @@ export function Footer() {
                 <p className="flex flex-col gap-1">
                   <a
                     href={contact.telephone.href}
-                    className="transition-colors duration-300 hover:text-gold"
+                    className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-gold"
                   >
                     {contact.telephone.label}
                   </a>
@@ -82,7 +82,7 @@ export function Footer() {
                     <a
                       key={mobile.href}
                       href={mobile.href}
-                      className="transition-colors duration-300 hover:text-gold"
+                      className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-gold"
                     >
                       {mobile.label}
                     </a>
@@ -90,7 +90,7 @@ export function Footer() {
                 </p>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="inline-block text-gold transition-opacity duration-300 hover:opacity-80"
+                  className="-my-1 inline-block py-2 text-gold transition-opacity duration-300 hover:opacity-80"
                 >
                   {contact.email}
                 </a>
@@ -115,12 +115,12 @@ export function Footer() {
             </p>
             <ul className="flex gap-5 text-xs text-ice/45">
               <li>
-                <a href="#" className="transition-colors duration-300 hover:text-ice">
+                <a href="#" className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-ice">
                   Privacy policy
                 </a>
               </li>
               <li>
-                <a href="#" className="transition-colors duration-300 hover:text-ice">
+                <a href="#" className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-ice">
                   Terms of service
                 </a>
               </li>

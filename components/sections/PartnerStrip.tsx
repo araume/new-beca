@@ -31,7 +31,7 @@ export function PartnerStrip() {
                   <span className="whitespace-nowrap font-display text-lg font-semibold tracking-tight text-ice/75 sm:text-xl">
                     {client.name}
                   </span>
-                  <span className="whitespace-nowrap rounded-full border border-ice/15 px-2 py-0.5 text-[0.625rem] uppercase tracking-[0.14em] text-ice/45">
+                  <span className="whitespace-nowrap rounded-full border border-ice/15 px-2 py-0.5 text-[0.6875rem] uppercase tracking-[0.14em] text-ice/45">
                     {client.country}
                   </span>
                   <span aria-hidden="true" className="ml-4 h-1 w-1 rotate-45 bg-gold/60" />

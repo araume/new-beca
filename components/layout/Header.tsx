@@ -66,7 +66,7 @@ export function Header() {
             scrolled ? "px-4 py-2.5 sm:px-5" : "px-5 py-3.5 sm:px-7 sm:py-4"
           }`}
         >
-          <a href="#top" className="rounded-lg" aria-label={`${"BECA Logistics"} — back to top`}>
+          <a href="#top" className="-my-2 rounded-lg py-2" aria-label={`${"BECA Logistics"} — back to top`}>
             <Logo priority />
           </a>
 
@@ -109,7 +109,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="grid h-10 w-10 place-items-center rounded-full border border-ice/20 text-ice transition-colors duration-300 hover:bg-ice/10 lg:hidden"
+              className="grid h-11 w-11 place-items-center rounded-full border border-ice/20 text-ice transition-colors duration-300 hover:bg-ice/10 lg:hidden"
             >
               <span className="relative block h-3.5 w-5">
                 <span
@@ -148,7 +148,7 @@ export function Header() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       tabIndex={open ? 0 : -1}
-                      className="block rounded-xl px-4 py-3 font-display text-base font-medium text-ice/80 transition-colors duration-300 hover:bg-ice/10 hover:text-ice"
+                      className="block rounded-xl px-4 py-3.5 font-display text-base font-medium text-ice/80 transition-colors duration-300 hover:bg-ice/10 hover:text-ice"
                     >
                       {item.label}
                     </a>

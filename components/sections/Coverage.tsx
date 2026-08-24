@@ -24,12 +24,18 @@ export function Coverage() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-16">
+        {/* `min-w-0` on the items is load-bearing: grid items default to
+              min-width:auto, so the table's min-w-[30rem] below would otherwise
+              widen this column past the viewport instead of scrolling inside
+              its own container. */}
+          <div className="mt-14 grid gap-12 *:min-w-0 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-16">
           {/* Lead time table */}
           <Reveal>
             <div className="glass overflow-hidden rounded-3xl">
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[30rem] border-collapse text-left">
+                {/* Below `sm` the table sizes to the viewport and wraps rather
+                    than forcing a 480px horizontal scroll in a ~342px column. */}
+                <table className="w-full border-collapse text-left sm:min-w-[30rem]">
                   <caption className="sr-only">
                     Delivery lead times by area of the Philippines
                   </caption>
