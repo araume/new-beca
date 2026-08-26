@@ -43,7 +43,7 @@ export type Port = {
   lng: number;
 };
 
-/** Every voyage departs from the company's home port. */
+/** Every voyage terminates at the company's home port. */
 export const HOME_PORT: Port = {
   country: "PH",
   city: "Manila",
@@ -53,11 +53,13 @@ export const HOME_PORT: Port = {
 };
 
 /**
- * Destination ports — one per client market named in the brochure's partial
- * client listing: USA, Sweden, Russia, Italy and Romania. One port each keeps
- * every market equally likely to be picked.
+ * Origin ports — one per client market named in the brochure's partial client
+ * listing: USA, Sweden, Russia, Italy and Romania. Cargo moves *inbound* from
+ * these markets to Manila, which is the direction the business actually runs:
+ * the company serves the international importing community. One port each
+ * keeps every market equally likely to be picked.
  */
-export const DESTINATIONS: Port[] = [
+export const ORIGIN_PORTS: Port[] = [
   { country: "US", city: "Los Angeles", label: "Los Angeles, USA", lat: 33.74, lng: -118.27 },
   { country: "SE", city: "Stockholm", label: "Stockholm, Sweden", lat: 59.33, lng: 18.07 },
   { country: "RU", city: "St Petersburg", label: "St Petersburg, Russia", lat: 59.94, lng: 30.31 },
