@@ -12,6 +12,7 @@
   --color-gold: #d8b800; /* gold   — action / accent */
   --color-ice: #def5ff; /* ice    — primary text + wireframes */
   --color-graphite: #424242; /* charcoal — neutral rules, muted UI */
+  --color-alice: #f0f8ff; /* aliceblue — light surface (header, footer) */
 
   /* Navy depth steps (surface elevation) */
   --color-ink-950: #000a20;
@@ -24,6 +25,9 @@
   /* Gold steps — gold is display/accent only, never body copy on light */
   --color-gold-bright: #f2d02a;
   --color-gold-dim: #9b8400;
+  /* Gold darkened until it clears 4.5:1 on aliceblue; brand gold itself only
+     manages 3.5:1 there, which is fine for a rule but not for a link. */
+  --color-gold-deep: #6d5c00;
 
   /* Type */
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -61,7 +65,7 @@
 
   /* Anchor targets clear the floating header */
   section[id] {
-    scroll-margin-top: 6.5rem;
+    scroll-margin-top: 7.5rem;
   }
 
   h1,
@@ -116,8 +120,24 @@
     -webkit-backdrop-filter: blur(12px) saturate(140%);
   }
 
+  /* Light counterpart, for the header and footer panels. Held at 94% rather
+     than the navy panels' 55%: any more transparency and the dark hero
+     underneath greys it straight out of the aliceblue it is meant to read as,
+     so the blur survives as texture instead of as tint. */
+  .glass-light {
+    background-color: color-mix(in oklab, var(--color-alice) 94%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    color: var(--color-ink);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.75),
+      0 8px 32px -8px rgb(0 18 56 / 0.3);
+  }
+
   @media (max-width: 767px) {
-    .glass {
+    .glass,
+    .glass-light {
       backdrop-filter: blur(10px) saturate(140%);
       -webkit-backdrop-filter: blur(10px) saturate(140%);
     }
@@ -131,6 +151,9 @@
     .glass,
     .glass-soft {
       background-color: color-mix(in oklab, var(--color-ink-700) 94%, transparent);
+    }
+    .glass-light {
+      background-color: var(--color-alice);
     }
   }
 

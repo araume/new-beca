@@ -7,22 +7,22 @@ export function Footer() {
   return (
     <footer className="relative px-4 pb-6">
       <div className="mx-auto w-full max-w-page">
-        <div className="glass overflow-hidden rounded-3xl">
+        <div className="glass-light overflow-hidden rounded-3xl">
           <div className="grid gap-10 p-8 sm:p-10 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-8">
             {/* Identity */}
             <div>
               <Logo />
-              <p className="mt-5 max-w-xs text-sm leading-relaxed text-ice/60">
+              <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink/65">
                 {company.promise}
               </p>
-              <p className="mt-4 font-display text-sm font-medium tracking-tight text-gold">
+              <p className="mt-4 font-display text-sm font-medium tracking-tight text-gold-deep">
                 {company.motto}
               </p>
             </div>
 
             {/* Navigate */}
             <nav aria-label="Footer">
-              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ice/45">
+              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
                 Navigate
               </h2>
               <ul className="mt-3 space-y-0.5">
@@ -30,7 +30,7 @@ export function Footer() {
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      className="-my-1 inline-block py-2 text-sm text-ice/70 transition-colors duration-300 hover:text-gold"
+                      className="-my-1 inline-block py-2 text-sm text-ink/70 transition-colors duration-300 hover:text-gold-deep"
                     >
                       {item.label}
                     </a>
@@ -41,7 +41,7 @@ export function Footer() {
 
             {/* Services */}
             <div>
-              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ice/45">
+              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
                 Services
               </h2>
               <ul className="mt-3 space-y-0.5">
@@ -49,7 +49,7 @@ export function Footer() {
                   <li key={service.slug}>
                     <a
                       href="#services"
-                      className="-my-1 inline-block py-2 text-sm text-ice/70 transition-colors duration-300 hover:text-gold"
+                      className="-my-1 inline-block py-2 text-sm text-ink/70 transition-colors duration-300 hover:text-gold-deep"
                     >
                       {service.name}
                     </a>
@@ -60,10 +60,10 @@ export function Footer() {
 
             {/* Contact */}
             <div>
-              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ice/45">
+              <h2 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
                 Get in touch
               </h2>
-              <address className="mt-4 space-y-3 text-sm not-italic text-ice/70">
+              <address className="mt-4 space-y-3 text-sm not-italic text-ink/70">
                 <p className="leading-relaxed">
                   {contact.address.lines.map((line) => (
                     <span key={line} className="block">
@@ -74,7 +74,7 @@ export function Footer() {
                 <p className="flex flex-col gap-1">
                   <a
                     href={contact.telephone.href}
-                    className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-gold"
+                    className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-gold-deep"
                   >
                     {contact.telephone.label}
                   </a>
@@ -82,7 +82,7 @@ export function Footer() {
                     <a
                       key={mobile.href}
                       href={mobile.href}
-                      className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-gold"
+                      className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-gold-deep"
                     >
                       {mobile.label}
                     </a>
@@ -90,7 +90,7 @@ export function Footer() {
                 </p>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="-my-1 inline-block py-2 text-gold transition-opacity duration-300 hover:opacity-80"
+                  className="-my-1 inline-block py-2 text-gold-deep transition-opacity duration-300 hover:opacity-80"
                 >
                   {contact.email}
                 </a>
@@ -99,28 +99,28 @@ export function Footer() {
           </div>
 
           {/* Credentials rail */}
-          <div className="border-t border-ice/10 px-8 py-5 sm:px-10">
+          <div className="border-t border-ink/10 px-8 py-5 sm:px-10">
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
               {credentials.map((credential) => (
-                <li key={credential.number} className="text-xs text-ice/45">
-                  <span className="text-ice/65">{credential.label}</span> {credential.number}
+                <li key={credential.number} className="text-xs text-ink/55">
+                  <span className="text-ink/75">{credential.label}</span> {credential.number}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="flex flex-col gap-3 border-t border-ice/10 px-8 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-            <p className="text-xs text-ice/45">
+          <div className="flex flex-col gap-3 border-t border-ink/10 px-8 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+            <p className="text-xs text-ink/55">
               © {year} {company.name}. All rights reserved.
             </p>
-            <ul className="flex gap-5 text-xs text-ice/45">
+            <ul className="flex gap-5 text-xs text-ink/55">
               <li>
-                <a href="#" className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-ice">
+                <a href="#" className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-ink">
                   Privacy policy
                 </a>
               </li>
               <li>
-                <a href="#" className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-ice">
+                <a href="#" className="-my-1 inline-block py-2 transition-colors duration-300 hover:text-ink">
                   Terms of service
                 </a>
               </li>

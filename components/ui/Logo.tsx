@@ -8,20 +8,36 @@ import { company } from "@/lib/content";
  * it. Statically imported so next/image gets the intrinsic dimensions and can
  * reserve the box before it loads.
  */
+/**
+ * Height is a named variant rather than an overridable class: both the base
+ * height and an incoming `className` would land in the same Tailwind layer at
+ * equal specificity, so which one won would come down to stylesheet order.
+ */
+const SIZES = {
+  /** Footer and inline use. */
+  sm: { className: "h-9 sm:h-10", sizes: "120px" },
+  /** Header lockup — the page's primary brand statement. */
+  lg: { className: "h-12 sm:h-14", sizes: "160px" },
+} as const;
+
 export function Logo({
+  size = "sm",
   className = "",
   priority = false,
 }: {
+  size?: keyof typeof SIZES;
   className?: string;
   priority?: boolean;
 }) {
+  const variant = SIZES[size];
+
   return (
     <Image
       src={logo}
       alt={company.name}
       priority={priority}
-      sizes="120px"
-      className={`h-9 w-auto sm:h-10 ${className}`}
+      sizes={variant.sizes}
+      className={`w-auto ${variant.className} ${className}`}
     />
   );
 }

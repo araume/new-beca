@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/ui/Logo";
-import { QUOTE_HREF, navigation } from "@/lib/content";
+import { QUOTE_HREF, company, navigation } from "@/lib/content";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -62,12 +62,12 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:pt-4">
       <div ref={panelRef} className="mx-auto w-full max-w-page">
         <div
-          className={`glass flex items-center justify-between gap-4 rounded-2xl transition-[padding,border-radius,background-color] duration-500 ease-[var(--ease-soft)] ${
+          className={`glass-light flex items-center justify-between gap-4 rounded-2xl transition-[padding,border-radius,background-color] duration-500 ease-[var(--ease-soft)] ${
             scrolled ? "px-4 py-2.5 sm:px-5" : "px-5 py-3.5 sm:px-7 sm:py-4"
           }`}
         >
-          <a href="#top" className="-my-2 rounded-lg py-2" aria-label={`${"BECA Logistics"} — back to top`}>
-            <Logo priority />
+          <a href="#top" className="-my-2 rounded-lg py-2" aria-label={`${company.name} — back to top`}>
+            <Logo size="lg" priority />
           </a>
 
           {/* Desktop navigation */}
@@ -81,7 +81,7 @@ export function Header() {
                       href={item.href}
                       aria-current={isActive ? "true" : undefined}
                       className={`relative block rounded-full px-3.5 py-2 font-display text-sm font-medium transition-colors duration-300 ${
-                        isActive ? "text-ice" : "text-ice/60 hover:text-ice"
+                        isActive ? "text-ink" : "text-ink/55 hover:text-ink"
                       }`}
                     >
                       {item.label}
@@ -109,7 +109,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="grid h-11 w-11 place-items-center rounded-full border border-ice/20 text-ice transition-colors duration-300 hover:bg-ice/10 lg:hidden"
+              className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 text-ink transition-colors duration-300 hover:bg-ink/8 lg:hidden"
             >
               <span className="relative block h-3.5 w-5">
                 <span
@@ -140,7 +140,7 @@ export function Header() {
           }`}
         >
           <div className="min-h-0">
-            <nav aria-label="Mobile" className="glass rounded-2xl p-2">
+            <nav aria-label="Mobile" className="glass-light rounded-2xl p-2">
               <ul className="flex flex-col">
                 {navigation.map((item) => (
                   <li key={item.href}>
@@ -148,7 +148,7 @@ export function Header() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       tabIndex={open ? 0 : -1}
-                      className="block rounded-xl px-4 py-3.5 font-display text-base font-medium text-ice/80 transition-colors duration-300 hover:bg-ice/10 hover:text-ice"
+                      className="block rounded-xl px-4 py-3.5 font-display text-base font-medium text-ink/75 transition-colors duration-300 hover:bg-ink/8 hover:text-ink"
                     >
                       {item.label}
                     </a>

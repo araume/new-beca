@@ -223,6 +223,15 @@ export const clients = [
   { name: "Smart Recruitment and Cargo Services", country: "Romania" },
 ] as const;
 
+/**
+ * The partner strip shows markets rather than company names. Deduped because
+ * two of the clients above are US forwarders — listed straight through, the
+ * marquee would read "USA" twice in a row.
+ */
+export const clientCountries: readonly string[] = [
+  ...new Set(clients.map((client) => client.country)),
+];
+
 export const process = [
   {
     step: "01",
