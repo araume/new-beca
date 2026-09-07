@@ -25,9 +25,11 @@
   /* Gold steps — gold is display/accent only, never body copy on light */
   --color-gold-bright: #f2d02a;
   --color-gold-dim: #9b8400;
-  /* Gold darkened until it clears 4.5:1 on aliceblue; brand gold itself only
-     manages 3.5:1 there, which is fine for a rule but not for a link. */
-  --color-gold-deep: #6d5c00;
+  /* Gold darkened for text on the light surfaces; brand gold itself only
+     manages 3.5:1 on aliceblue, which is fine for a rule but not for copy.
+     Held dark enough (7.4:1 on aliceblue) to survive the footer band's
+     gradient, where the ground under it cools by the last stop. */
+  --color-gold-deep: #5f5000;
 
   /* Type */
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
