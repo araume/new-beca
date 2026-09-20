@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/ui/Logo";
-import { QUOTE_HREF, company, navigation } from "@/lib/content";
+import { QuoteButton } from "@/components/quote/QuoteButton";
+import { company, navigation } from "@/lib/content";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -99,9 +100,9 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a href={QUOTE_HREF} className="btn btn-primary hidden py-2.5 text-sm sm:inline-flex">
+            <QuoteButton className="btn btn-primary hidden py-2.5 text-sm sm:inline-flex">
               Get a quote
-            </a>
+            </QuoteButton>
 
             <button
               type="button"
@@ -155,14 +156,12 @@ export function Header() {
                   </li>
                 ))}
                 <li className="p-2 pt-3">
-                  <a
-                    href={QUOTE_HREF}
-                    onClick={() => setOpen(false)}
-                    tabIndex={open ? 0 : -1}
+                  <QuoteButton
+                    onNavigate={() => setOpen(false)}
                     className="btn btn-primary w-full"
                   >
                     Get a quote
-                  </a>
+                  </QuoteButton>
                 </li>
               </ul>
             </nav>

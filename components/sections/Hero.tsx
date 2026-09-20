@@ -1,8 +1,10 @@
 import { WorldMapCanvas } from "@/components/visuals/WorldMapCanvas";
 import { Reveal } from "@/components/ui/Reveal";
-import { FOUNDED_YEAR, QUOTE_HREF, company, contact } from "@/lib/content";
+import { QuoteButton } from "@/components/quote/QuoteButton";
+import { FOUNDED_YEAR, bocAccreditation, company, contact } from "@/lib/content";
 
 const assurances = [
+  { label: bocAccreditation.label, detail: `CCN ${bocAccreditation.ccn}` },
   { label: `Established ${FOUNDED_YEAR}`, detail: "Philippine-owned and operated" },
   { label: "DTI & LTFRB registered", detail: "Freight forwarding and trucking" },
   { label: "Insured door-to-door", detail: "Inland trucking and marine cover" },
@@ -40,7 +42,7 @@ export function Hero() {
 
         <Reveal delay={260}>
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a href={QUOTE_HREF} className="btn btn-primary px-7 py-3.5 text-base">
+            <QuoteButton className="btn btn-primary px-7 py-3.5 text-base">
               Get a quote
               <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4" fill="none">
                 <path
@@ -51,7 +53,7 @@ export function Hero() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </a>
+            </QuoteButton>
             <a href={contact.telephone.href} className="btn btn-ghost px-7 py-3.5 text-base">
               Call {contact.telephone.label}
             </a>
@@ -59,7 +61,9 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={340}>
-          <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ice/10 bg-ice/10 sm:grid-cols-3">
+          {/* Four items, so the columns go 1 → 2 → 4 rather than through 3:
+              a three-wide row would strand the fourth card on its own line. */}
+          <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ice/10 bg-ice/10 sm:grid-cols-2 lg:grid-cols-4">
             {assurances.map((item) => (
               <li key={item.label} className="glass-soft px-5 py-4">
                 <p className="font-display text-sm font-semibold text-ice">{item.label}</p>

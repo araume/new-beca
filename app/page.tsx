@@ -8,6 +8,7 @@ import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { Coverage } from "@/components/sections/Coverage";
 import { CallToAction } from "@/components/sections/CallToAction";
+import { QuoteDialog } from "@/components/quote/QuoteDialog";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <CallToAction />
       </main>
       <Footer />
+      <QuoteDialog />
     </>
   );
 }

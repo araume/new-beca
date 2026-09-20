@@ -21,7 +21,7 @@ export const company = {
 
 export const contact = {
   // TODO: placeholder pending the client's real address.
-  email: "info@beca.logistics",
+  email: "becalogistics@gmail.com",
   telephone: { label: "(02) 8828-2939", href: "tel:+63288282939" },
   mobiles: [
     { label: "0917-547-3667", href: "tel:+639175473667" },
@@ -30,11 +30,11 @@ export const contact = {
   address: {
     lines: [
       "Km 16, RSTI Compound, Unit R-16",
-      "Alabang–Zapote Road, Pamplona 1",
+      "Alabang–Zapote Road, Uno",
       "Las Piñas City, Philippines 1740",
     ],
     oneLine:
-      "Km 16, RSTI Compound, Unit R-16, Alabang–Zapote Road, Pamplona 1, Las Piñas City, Philippines 1740",
+      "Km 16, RSTI Compound, Unit R-16, Alabang–Zapote Road, Uno, Las Piñas City, Philippines 1740",
   },
 } as const;
 
@@ -60,6 +60,19 @@ export const credentials = [
     scope: "Inland trucking & marine cover",
   },
 ] as const;
+
+/**
+ * Bureau of Customs accreditation. Kept out of `credentials` on purpose: that
+ * list feeds the About panel and the footer rail, while this one is quoted in
+ * the hero, where it is the first thing an overseas forwarder looks for — it
+ * is the licence that lets us lodge an entry at all, so the registrations
+ * below only matter to someone who has already accepted this one.
+ */
+export const bocAccreditation = {
+  label: "BOC accredited",
+  /** Customs Client Number. */
+  ccn: "FW0000118877",
+} as const;
 
 export const stats = [
   {
@@ -265,7 +278,64 @@ export const navigation = [
 ] as const;
 
 /**
- * Primary conversion target. The dedicated quote page is not built yet, so the
- * CTA resolves to the on-page contact block until /quote exists.
+ * Where the "Get a quote" control points when JavaScript has not run — before
+ * hydration, or if it never arrives. The quote form is a dialog rather than a
+ * page (see components/quote/QuoteDialog), so this is the graceful fallback,
+ * not the primary target: the contact block carries the same phone numbers and
+ * address the form would have mailed to.
  */
 export const QUOTE_HREF = "#contact";
+
+/** Container options offered in the quote form. */
+/**
+ * Ports offered in the quote form. Built from the coverage map's own hubs so
+ * the two can never drift apart, plus an escape hatch — we clear at every
+ * Philippine container port, not only the six the map happens to draw.
+ */
+export const portsOfDischarge: readonly string[] = [
+  ...hubs.map((hub) => hub.name),
+  "Other / not sure",
+];
+
+/**
+ * Incoterms, commonest first for this trade lane. Which one applies decides
+ * what a quote has to cover, so it is the single most useful thing an enquiry
+ * can carry beyond the route itself.
+ */
+export const incoterms = ["FOB", "CIF", "CFR", "EXW", "DDP", "Not sure"] as const;
+
+export const loadTypes = [
+  { value: "FCL", label: "FCL", detail: "Full container load" },
+  { value: "LCL", label: "LCL", detail: "Less than container" },
+  { value: "Not sure", label: "Not sure", detail: "We will advise" },
+] as const;
+
+/**
+ * Per-field caps. A mailto: URL is the transport and clients disagree on how
+ * long one may be, so the form is bounded at the source rather than truncated
+ * after the fact.
+ *
+ * These bound each field; they are not a promise about the whole message. The
+ * email carries a masthead, four sections and a footer, so a submission that
+ * fills *every* field to its cap and ticks all seven services does overrun
+ * QuoteDialog's URL ceiling and gets trimmed there. A realistically complete
+ * enquiry — every field answered at ordinary length — measures about 1,400 of
+ * 2,000, so the trim is the far end of the distribution rather than the norm,
+ * and the webmail links carry the untrimmed text regardless.
+ *
+ * Percent-encoding is what eats the headroom: ASCII costs roughly 1.4x, while
+ * an accented or Cyrillic character costs six bytes each — so a note written
+ * in Russian, from a market we actually serve, overruns sooner than its length
+ * suggests. Raising any limit here moves the trim closer to ordinary use.
+ */
+export const QUOTE_LIMITS = {
+  name: 70,
+  company: 70,
+  email: 90,
+  phone: 40,
+  origin: 90,
+  containers: 60,
+  weightVolume: 60,
+  commodity: 110,
+  notes: 300,
+} as const;

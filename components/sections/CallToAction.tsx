@@ -1,12 +1,15 @@
 import { Reveal } from "@/components/ui/Reveal";
+import { QuoteButton } from "@/components/quote/QuoteButton";
 import { company, contact } from "@/lib/content";
 
 const channels = [
   {
     label: "Request a quote",
-    value: contact.email,
+    value: "Quote form",
+    // Opens the quote dialog; the mailto stays as the pre-hydration fallback.
+    quote: true,
     href: `mailto:${contact.email}?subject=Quote%20request%20%E2%80%94%20BECA%20Logistics`,
-    detail: "Tell us the origin, volume and terms. We reply with a rate.",
+    detail: "A short form that writes the email for you. We reply with a rate.",
     icon: (
       <path
         d="M2.5 6.5h15v11h-15v-11Zm0 .5 7.5 5.5L17.5 7"
@@ -48,6 +51,9 @@ const channels = [
   },
 ];
 
+const CHANNEL_CARD =
+  "group flex h-full flex-col rounded-2xl border border-ice/12 bg-ice/4 p-6 transition-all duration-500 ease-[var(--ease-soft)] hover:-translate-y-1 hover:border-gold/50 hover:bg-ice/8";
+
 export function CallToAction() {
   return (
     <section id="contact" className="relative z-10 px-6 pb-20 pt-8 sm:pb-24">
@@ -77,12 +83,9 @@ export function CallToAction() {
 
           <Reveal delay={200}>
             <ul className="relative mt-12 grid gap-4 md:grid-cols-3">
-              {channels.map((channel) => (
-                <li key={channel.label}>
-                  <a
-                    href={channel.href}
-                    className="group flex h-full flex-col rounded-2xl border border-ice/12 bg-ice/4 p-6 transition-all duration-500 ease-[var(--ease-soft)] hover:-translate-y-1 hover:border-gold/50 hover:bg-ice/8"
-                  >
+              {channels.map((channel) => {
+                const body = (
+                  <>
                     <span className="grid h-10 w-10 place-items-center rounded-full border border-ice/15 text-gold transition-colors duration-500 group-hover:border-gold/50">
                       <svg viewBox="0 0 20 20" aria-hidden="true" className="h-5 w-5" fill="none">
                         {channel.icon}
@@ -97,9 +100,21 @@ export function CallToAction() {
                     <span className="mt-2 text-sm leading-relaxed text-ice/50">
                       {channel.detail}
                     </span>
-                  </a>
-                </li>
-              ))}
+                  </>
+                );
+
+                return (
+                  <li key={channel.label}>
+                    {"quote" in channel ? (
+                      <QuoteButton className={CHANNEL_CARD}>{body}</QuoteButton>
+                    ) : (
+                      <a href={channel.href} className={CHANNEL_CARD}>
+                        {body}
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </Reveal>
 

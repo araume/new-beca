@@ -276,6 +276,157 @@
     }
   }
 
+  /* --- Quote dialog -------------------------------------------------------
+     The <dialog> itself is only a transparent frame: the visible panel is the
+     .glass child, so the backdrop blur and the panel's own blur stay separate
+     layers rather than compounding into mud. */
+  .quote-dialog {
+    width: min(52rem, calc(100vw - 2rem));
+    max-width: none;
+    /* Load-bearing: a modal <dialog> is centred by `margin: auto` in the UA
+       stylesheet, and Tailwind's preflight zeroes margin on every element —
+       without this the dialog pins itself to the top-left corner. */
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-ice);
+    overflow: visible;
+  }
+
+  /* Opacity carries this on its own: backdrop-filter is unavailable often
+     enough that a backdrop relying on blur to separate the dialog from the
+     page leaves the hero headline legible straight through it. */
+  .quote-dialog::backdrop {
+    background-color: color-mix(in oklab, var(--color-ink-950) 88%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .quote-dialog[open] {
+    animation: beca-dialog-in 0.5s var(--ease-soft);
+  }
+
+  /* --- Dialog panel --------------------------------------------------------
+     Deliberately opaque, where the rest of the site's panels are glass. A
+     translucent surface works over a static section; over the animated hero
+     it lets the headline and the moving map read straight through the form,
+     and backdrop-filter is unavailable often enough that the blur cannot be
+     relied on to save it. The gradient supplies the depth the transparency
+     used to, and the gold cap ties it to the footer's divider. */
+  .dialog-panel {
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-ink-700) 0%,
+      var(--color-ink-800) 45%,
+      var(--color-ink-900) 100%
+    );
+    border: 1px solid color-mix(in oklab, var(--color-ice) 16%, transparent);
+    border-top: 3px solid var(--color-gold);
+    box-shadow:
+      inset 0 1px 0 0 color-mix(in oklab, var(--color-ice) 14%, transparent),
+      0 32px 80px -24px rgb(0 0 0 / 0.8);
+  }
+
+  /* --- Form fields ---------------------------------------------------------
+     Focus deliberately leaves the global gold :focus-visible outline in place
+     and adds a border colour under it; the outline is the accessible cue and
+     the border is what makes the field look live. */
+  .field {
+    width: 100%;
+    border-radius: 0.875rem;
+    border: 1px solid color-mix(in oklab, var(--color-ice) 16%, transparent);
+    background-color: color-mix(in oklab, var(--color-ice) 5%, transparent);
+    padding: 0.7rem 0.95rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-ice);
+    transition:
+      border-color 0.3s var(--ease-soft),
+      background-color 0.3s var(--ease-soft);
+  }
+
+  .field::placeholder {
+    color: color-mix(in oklab, var(--color-ice) 36%, transparent);
+  }
+
+  .field:hover {
+    border-color: color-mix(in oklab, var(--color-ice) 26%, transparent);
+  }
+
+  .field:focus {
+    border-color: var(--color-gold);
+    background-color: color-mix(in oklab, var(--color-ice) 8%, transparent);
+  }
+
+  /* Native date and select controls paint from the OS palette; the dark scheme
+     keeps their pickers from flashing white on this navy. */
+  select.field,
+  input[type="date"].field {
+    color-scheme: dark;
+  }
+
+  /* color-scheme alone does NOT fix the dropdown list. An <option> inherits
+     `color` from the field — ice blue — while its own background stays
+     transparent, so the popup falls back to the platform's white and renders
+     pale blue on white. Both halves have to be stated outright. */
+  .field option {
+    background-color: var(--color-ink-800);
+    color: var(--color-ice);
+  }
+
+  /* Solid, not a transparent mix: the popup is painted by the platform and an
+     alpha colour there composites against white, not against the menu. */
+  .field option:disabled {
+    color: color-mix(in oklab, var(--color-ice) 50%, var(--color-ink-800));
+  }
+
+  /* The native arrow is drawn from the OS palette too. Replacing it keeps the
+     control looking like the rest of the form rather than like the desktop. */
+  select.field {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='m5 7.5 5 5 5-5' stroke='%23def5ff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    background-size: 1.05rem;
+    padding-right: 2.6rem;
+  }
+
+  /* Shared by <label> and the <legend> of the radio/checkbox groups, so a
+     group of chips sits under the same heading treatment as a text field. */
+  .field-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-ice) 55%, transparent);
+  }
+
+  /* --- Selectable chips (load type, services) ------------------------------ */
+  .chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in oklab, var(--color-ice) 16%, transparent);
+    background-color: color-mix(in oklab, var(--color-ice) 4%, transparent);
+    padding: 0.55rem 1rem;
+    font-size: 0.8125rem;
+    color: color-mix(in oklab, var(--color-ice) 72%, transparent);
+    transition:
+      border-color 0.3s var(--ease-soft),
+      background-color 0.3s var(--ease-soft),
+      color 0.3s var(--ease-soft);
+  }
+
+  .chip:hover {
+    border-color: color-mix(in oklab, var(--color-ice) 30%, transparent);
+    color: var(--color-ice);
+  }
+
   /* --- Infinite marquee ---------------------------------------------------
      The track holds the list twice; translating it -50% lands the copy exactly
      where the original started, so the seam is invisible. */
@@ -403,6 +554,17 @@
   100% {
     opacity: 0;
     transform: scale(2.1);
+  }
+}
+
+@keyframes beca-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
