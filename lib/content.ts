@@ -38,7 +38,27 @@ export const contact = {
   },
 } as const;
 
+/**
+ * Bureau of Customs accreditation — the licence that lets us lodge an entry at
+ * all, so every registration below it only matters to someone who has already
+ * accepted this one.
+ *
+ * Declared apart from `credentials` because the hero quotes the bare number and
+ * the credentials list quotes it in full; both read it from here, so the number
+ * itself is written down once.
+ */
+export const bocAccreditation = {
+  label: "BOC accredited",
+  /** Customs Client Number. */
+  ccn: "FW0000118877",
+} as const;
+
 export const credentials = [
+  {
+    label: "Bureau of Customs Accreditation",
+    number: `CCN ${bocAccreditation.ccn}`,
+    scope: "Entry filing & cargo clearance",
+  },
   {
     label: "DTI Fair Trade Enforcement Bureau",
     number: "No. 26-WAB100259",
@@ -60,19 +80,6 @@ export const credentials = [
     scope: "Inland trucking & marine cover",
   },
 ] as const;
-
-/**
- * Bureau of Customs accreditation. Kept out of `credentials` on purpose: that
- * list feeds the About panel and the footer rail, while this one is quoted in
- * the hero, where it is the first thing an overseas forwarder looks for — it
- * is the licence that lets us lodge an entry at all, so the registrations
- * below only matter to someone who has already accepted this one.
- */
-export const bocAccreditation = {
-  label: "BOC accredited",
-  /** Customs Client Number. */
-  ccn: "FW0000118877",
-} as const;
 
 export const stats = [
   {
