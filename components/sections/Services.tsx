@@ -224,10 +224,19 @@ export function Services() {
                 onClick={() => scrollToIndex(index)}
                 aria-label={`Scroll to ${services[index].name}`}
                 aria-current={index === activeIndex ? "true" : undefined}
-                className={`block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-soft)] ${
-                  index === activeIndex ? "w-6 bg-gold" : "w-1.5 bg-ice/25 hover:bg-ice/50"
-                }`}
-              />
+                // The dot itself stays small, but the button carries padding so
+                // the tap target is a full 44px tall; 6x6px was unhittable.
+                className="group/dot -my-3 flex h-11 items-center px-1.5 py-3"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`block h-1.5 rounded-full transition-all duration-500 ease-[var(--ease-soft)] ${
+                    index === activeIndex
+                      ? "w-6 bg-gold"
+                      : "w-1.5 bg-ice/25 group-hover/dot:bg-ice/50"
+                  }`}
+                />
+              </button>
             </li>
           ))}
         </ul>

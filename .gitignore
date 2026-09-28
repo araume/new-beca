@@ -5,3 +5,4 @@ CLAUDE.md
 eslint.config.mjs
 tsconfig.tsbuildinfo
 /.next
+/.claude
