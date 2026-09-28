@@ -68,7 +68,7 @@ export function Header() {
           }`}
         >
           <a href="#top" className="-my-2 rounded-lg py-2" aria-label={`${company.name} — back to top`}>
-            <Logo size="lg" priority />
+            <Logo variant="header" priority />
           </a>
 
           {/* Desktop navigation */}

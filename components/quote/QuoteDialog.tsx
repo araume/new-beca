@@ -578,7 +578,7 @@ function QuoteForm({ onSubmit }: { onSubmit: (event: FormEvent<HTMLFormElement>)
           Opens your mail app addressed to <span className="text-ice/70">{contact.email}</span>
         </p>
         <button type="submit" className="btn btn-primary shrink-0">
-          Open in mail app
+          Submit
           <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4" fill="none">
             <path
               d="M4 10h11m0 0-4.5-4.5M15 10l-4.5 4.5"

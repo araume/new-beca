@@ -27,7 +27,7 @@ export function Footer() {
                 a column flex container overrides `w-auto` and smears the image
                 to the full band width at a fixed height. */}
             <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
-              <Logo />
+              <Logo variant="footer" />
               <div className="sm:text-right">
                 <p className="max-w-sm text-sm leading-relaxed text-ink/65">{company.promise}</p>
                 <p className="mt-1.5 font-display text-sm font-medium tracking-tight text-gold-deep">
