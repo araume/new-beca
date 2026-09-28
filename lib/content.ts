@@ -29,12 +29,12 @@ export const contact = {
   ],
   address: {
     lines: [
-      "Km 16, RSTI Compound, Unit R-16",
+      "Km 16, RSTI Compound, Unit R-016",
       "Alabang–Zapote Road, Pamplona Uno",
       "Las Piñas City, Philippines 1740",
     ],
     oneLine:
-      "Km 16, RSTI Compound, Unit R-16, Alabang–Zapote Road, Pamplona Uno, Las Piñas City, Philippines 1740",
+      "Km 16, RSTI Compound, Unit R-016, Alabang–Zapote Road, Pamplona Uno, Las Piñas City, Philippines 1740",
   },
 } as const;
 
