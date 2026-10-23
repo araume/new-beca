@@ -83,6 +83,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         {children}
+        {/* Injects the Vercel Analytics beacon. Last in the body so it never
+            delays the page's own content, and a no-op in development — it only
+            reports once deployed. */}
+        <Analytics />
       </body>
     </html>
   );
