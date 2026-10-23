@@ -9,7 +9,6 @@ import { Process } from "@/components/sections/Process";
 import { Coverage } from "@/components/sections/Coverage";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { QuoteDialog } from "@/components/quote/QuoteDialog";
-import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   return (
