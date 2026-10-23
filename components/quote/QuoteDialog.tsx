@@ -58,6 +58,11 @@ type Composed = {
   /** Browser compose windows, for people whose mail lives in a tab. */
   gmail: string;
   outlook: string;
+  /**
+   * Whether the browser let us open the Gmail tab. `window.open` returns null
+   * when a popup blocker refuses, which is the one failure here we can see.
+   */
+  blocked: boolean;
 };
 
 /**
@@ -285,12 +290,29 @@ export function QuoteDialog() {
     const now = new Date();
     const subject = buildSubject(form);
     const message = composeMessage(form, buildReference(now), now);
-    const url = buildMailtoUrl(subject, message);
+    const webmail = buildWebmailUrls(subject, message);
 
-    setComposed({ message, url, ...buildWebmailUrls(subject, message) });
-    // Hand off. Nothing reports back, which is why the panel below stays up
-    // and offers the webmail routes as well.
-    window.location.href = url;
+    /**
+     * Gmail opens here, and the call is deliberately synchronous.
+     *
+     * A browser only honours `window.open` while it can still attribute the
+     * call to the click that caused it. Anything awaited first — a fetch, even
+     * a promise that resolves immediately — ends that attribution and the tab
+     * is blocked. So this runs before any state is touched.
+     *
+     * `mailto:` is no longer fired on submit: it reaches the machine's default
+     * mail program, which for most people here is not Gmail, and it is the
+     * reason this step used to appear to do nothing. It stays on the panel
+     * below for anyone who does want their desktop client.
+     */
+    const opened = window.open(webmail.gmail, "_blank", "noopener,noreferrer");
+
+    setComposed({
+      message,
+      url: buildMailtoUrl(subject, message),
+      ...webmail,
+      blocked: opened === null,
+    });
   };
 
   const copyMessage = async () => {
@@ -622,24 +644,27 @@ function Handoff({
           </span>
           <div>
             <h3 className="font-display text-base font-semibold text-ice">
-              Your mail app should be opening
+              {composed.blocked ? "Your browser blocked the Gmail tab" : "Gmail is opening"}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-ice/60">
-              Check it and press send — the message is already written.
+              {composed.blocked
+                ? "Nothing is lost — the request is written out below. Use the button to open it yourself, or copy the text."
+                : "Your request is written out in a new tab. Check it over and press send there."}
             </p>
           </div>
         </div>
 
-        {/* The likeliest outcome for anyone whose mail is a browser tab is that
-            nothing happened at all, so the alternatives are offered up front
-            rather than buried as a footnote under the transcript. */}
+        {/* Kept even on the happy path. A blocked popup is the only failure we
+            can detect; a Gmail tab that opened to a login wall, or an account
+            the sender did not want, reports nothing — so the other routes stay
+            one click away rather than being hidden once we think it worked. */}
         <div className="mt-6 rounded-2xl border border-ice/10 bg-ice/4 p-5">
           <p className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-ice/50">
-            Nothing opened, or you use webmail?
+            {composed.blocked ? "Open it yourself" : "Did not reach Gmail?"}
           </p>
           <p className="mt-2 text-sm leading-relaxed text-ice/55">
-            A mail link opens your computer&apos;s default mail program, which is not Gmail unless
-            you have set it up that way. These open a prefilled draft in the browser instead.
+            The first two open a prefilled draft in the browser, in whichever account you are
+            signed into. The third hands it to your computer&apos;s default mail program.
           </p>
           <div className="mt-4 flex flex-wrap gap-2.5">
             <a
@@ -648,7 +673,7 @@ function Handoff({
               rel="noopener noreferrer"
               className="btn btn-primary py-2.5 text-sm"
             >
-              Open in Gmail
+              {composed.blocked ? "Open Gmail now" : "Open in Gmail"}
             </a>
             <a
               href={composed.outlook}
