@@ -27,6 +27,9 @@ export const contact = {
     { label: "0917-547-3667", href: "tel:+639175473667" },
     { label: "0969-630-8952", href: "tel:+639696308952" },
   ],
+  social: {
+    facebook: { label: "facebook.com/becalogistics", href: "https://www.facebook.com/becalogistics/" },
+  },
   address: {
     lines: [
       "Km 16, RSTI Compound, Unit R-016",
